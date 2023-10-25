@@ -38,11 +38,11 @@ class ConfigFile:
                         params_array.append({Constants.PARAM: param})
                     params_dict = {Constants.PARAMS: params_array}
                 else:
-                    params_dict = {Constants.PARAMS: []}
+                    params_dict = {Constants.PARAMS: [{'PARAM': ''}]}
 
                 if not conf.has_option(section, Constants.NOTEBOOKS):
-                    notebooks = {Constants.NOTEBOOKS: [section + Constants.IPYNB]}
-                    config_dict[section] = params_dict | notebooks
+                    logging.error(f'Not found notebooks in section {section}')
+                    continue
                 else:
                     notebooks = conf.get(section, Constants.NOTEBOOKS).split(Constants.COME)
                     config_dict[section] = params_dict | {Constants.NOTEBOOKS: notebooks}

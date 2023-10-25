@@ -79,7 +79,7 @@ with open(PATH + os.path.sep + 'variables.env', 'w') as file:
     def start_cell(params) -> nbformat.notebooknode.NotebookNode:
         ps = "# Variables Globales\n"
         ps += ''.join([key + ' = \'' + params[key] + '\'\n' for key in params])
-        with open('src/TestMagic.py') as file:
+        with open(os.path.dirname(os.path.realpath(__file__)) + '/TestMagic.py') as file:
             source = file.read()
 
         return nbformat.v4.new_code_cell(ps + source)

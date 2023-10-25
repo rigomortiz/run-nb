@@ -17,12 +17,12 @@ class TestMagic(Magics):
     def test(self, cell):
         print('Running tests ...')
         global TEST_COUNT
-        test_file = OUTPUT_PATH + os.path.sep + 'test_' + str(TEST_COUNT) + '.py'
+        test_file = OUTPUT_PATH + 'test_' + str(TEST_COUNT) + '.py'
         with open(test_file, 'w') as f:
             f.write(cell.format(**globals()))
             f.close()
-        pytest.main([test_file])
-        # pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes',test_file])
+        #pytest.main([test_file])
+        pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file])
         print("Finish tests")
         os.remove(test_file)
         TEST_COUNT = TEST_COUNT + 1
