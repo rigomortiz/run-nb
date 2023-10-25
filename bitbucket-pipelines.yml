@@ -1,0 +1,10 @@
+# This is an example Starter pipeline configuration
+# -----
+
+
+pipelines:
+  default:
+    - step:
+        name: 'Create zip file'
+        script:
+          - zip -r run-nb.zip .
