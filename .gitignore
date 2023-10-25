@@ -3,3 +3,5 @@
 /env/
 /.idea/
 .ipynb_checkpoints/
+/logs/
+/.pytest_cache/
