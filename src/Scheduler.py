@@ -19,8 +19,7 @@ class Scheduler:
         logging.info(f'Numero de notebooks: {len(keys)}')
         for key in keys:
             logging.info(f'Notebook: {key}')
-            name = notebooks.get(key).get(Constants.NOTEBOOKS)[0]
-            path = Constants.POINT + os.path.sep + name
+            path = notebooks.get(key).get(Constants.NOTEBOOKS)[0]
             params = notebooks.get(key).get(Constants.PARAMS)
             i = 1
             for param in params:
@@ -42,7 +41,7 @@ class Scheduler:
                      logging.info(f'Path  {output_path} not exists, creating ...')
                      os.makedirs(output_path)
 
-                logging.info(f'Inicializando notebook {output_path}{name} ...')
+                logging.info(f'Inicializando notebook {path} ...')
                 param[Constants.OUTPUT_PATH] = output_path
                 nb = Notebook(path=path, params=param)
                 self.notebooks.append(nb)
