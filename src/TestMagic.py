@@ -14,7 +14,7 @@ TEST_COUNT = 1
 class TestMagic(Magics):
 
     @register_line_cell_magic
-    def test(self, cell):
+    def run_test(self, cell):
         print('Running tests ...')
         global TEST_COUNT
         test_file = OUTPUT_PATH + 'test_' + str(TEST_COUNT) + '.py'
@@ -37,7 +37,7 @@ class TestMagic(Magics):
         print(f"Finish saving tests in {test_file}")
 
     @register_line_magic
-    def run_all_test(self):
+    def run_all_tests(self):
         print('Running all tests ...')
         test_file = OUTPUT_PATH + 'test.py'
         pytest.main(['--no-header', '-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file])
