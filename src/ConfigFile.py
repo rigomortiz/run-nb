@@ -47,6 +47,11 @@ class ConfigFile:
                     notebooks = conf.get(section, Constants.NOTEBOOKS).split(Constants.COME)
                     config_dict[section] = params_dict | {Constants.NOTEBOOKS: notebooks}
 
+                if conf.has_option(section, Constants.KERNEL):
+                    config_dict[section] = config_dict[section] | {Constants.KERNEL: conf.get(section, Constants.KERNEL)}
+                else:
+                    config_dict[section] = config_dict[section] | {Constants.KERNEL: Constants.PYTHON3}
+
             logging.info('Config file read successfully')
             logging.info(config_dict)
 

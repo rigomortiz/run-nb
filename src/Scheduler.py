@@ -43,7 +43,8 @@ class Scheduler:
 
                 logging.info(f'Inicializando notebook {path} ...')
                 param[Constants.OUTPUT_PATH] = output_path
-                nb = Notebook(path=path, params=param)
+                param[Constants.CARPETA] = param[Constants.OUTPUT_PATH].split(os.path.sep)[-2]
+                nb = Notebook(path=path, params=param, kernel_name=notebooks.get(key).get(Constants.KERNEL))
                 self.notebooks.append(nb)
     def get_notebooks(self) -> list[Notebook]:
         return self.notebooks

@@ -373,3 +373,5 @@ def test_string_and_int(order, first_entry):
     order.append(2)
     assert order == [first_entry, 2]
 ```
+
+`jupyter kernelspec list`

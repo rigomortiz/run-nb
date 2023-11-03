@@ -23,8 +23,9 @@ class Notebook:
             path = self.params[Constants.OUTPUT_PATH] + name
             logging.info(f'Notebook: {name} version: {Constants.AS_VERSION} running with kernel {self.kernel_name}')
             logging.info('Running cells...')
-            # Add cell to init
-            nb.cells.insert(0, Utils.start_cell(self.params))
+            if self.kernel_name == Constants.PYTHON3 or self.kernel_name == Constants.SPARK_PYTHON:
+                # Add cell to init
+                nb.cells.insert(0, Utils.start_cell(self.params))
             # Add cell to save env variables
             #nb.cells.insert(len(nb.cells) + 1, Utils.end_cell())
             ep = ExecutePreprocessor(timeout=Constants.TIMEOUT, kernel_name=self.kernel_name, startup_timeout=Constants.STARTUP_TIMEOUT)

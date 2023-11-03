@@ -22,9 +22,20 @@ class TestMagic(Magics):
             f.write(cell.format(**globals()))
             f.close()
         #pytest.main([test_file])
-        pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file])
-        print("Finish tests")
+        result = 'OK' if pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file]) == 0 else 'FAIL'
+
         os.remove(test_file)
+        # result test in file csv
+        if not os.path.exists(OUTPUT_PATH + '../results_tests_' + str(TEST_COUNT) + '.csv'):
+            with open(OUTPUT_PATH + '../results_tests_' + str(TEST_COUNT) + '.csv', 'w') as f:
+                f.write('CARPETA,TEST\n')
+                f.close()
+
+        with open(OUTPUT_PATH + '../results_tests_' + str(TEST_COUNT) + '.csv', 'a') as f:
+            f.write(CARPETA + ',' + result + '\n')
+            f.close()
+
+        print(f"Finish test: {result}")
         TEST_COUNT = TEST_COUNT + 1
 
     @register_line_cell_magic
