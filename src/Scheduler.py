@@ -44,6 +44,8 @@ class Scheduler:
                 logging.info(f'Inicializando notebook {path} ...')
                 param[Constants.OUTPUT_PATH] = output_path
                 param[Constants.CARPETA] = param[Constants.OUTPUT_PATH].split(os.path.sep)[-2]
+                param[Constants.WORKSPACE] = param[Constants.OUTPUT_PATH].replace("/var/sds/homes", "/intelligence/inrisk/analytic/users")
+
                 nb = Notebook(path=path, params=param, kernel_name=notebooks.get(key).get(Constants.KERNEL))
                 self.notebooks.append(nb)
     def get_notebooks(self) -> list[Notebook]:

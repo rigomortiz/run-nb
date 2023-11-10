@@ -3,6 +3,7 @@ LOG_FILE_EXTENSION = '.log'
 FORMAT_DATE = '%Y-%m-%d_%H-%M-%S'
 DATES = 'dates'
 NOTEBOOKS = 'notebooks'
+WORKSPACE = "WORKSPACE"
 PARAMS = 'params'
 PARAM = 'PARAM'
 FILE = 'file'
