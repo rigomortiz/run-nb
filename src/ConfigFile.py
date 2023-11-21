@@ -52,6 +52,12 @@ class ConfigFile:
                 else:
                     config_dict[section] = config_dict[section] | {Constants.KERNEL: Constants.PYTHON3}
 
+                if conf.has_option(section, Constants.SAVE) and (conf.get(section, Constants.SAVE) == 'False'
+                                                                 or conf.get(section, Constants.SAVE) == 'false'):
+                    config_dict[section] = config_dict[section] | {Constants.SAVE: False}
+                else:
+                    config_dict[section] = config_dict[section] | {Constants.SAVE: True}
+
             logging.info('Config file read successfully')
             logging.info(config_dict)
 

@@ -7,13 +7,14 @@ from src.Utils import Utils
 from src import Constants
 
 class Notebook:
-    def __init__(self, path: str, params: dict, kernel_name: str = Constants.PYTHON3):
+    def __init__(self, path: str, params: dict, kernel_name: str = Constants.PYTHON3, save: bool = True):
         self.path = path
         self.params = params
         self.kernel_name = kernel_name
+        self.save = save
 
     def __str__(self):
-        return 'path=' + self.path + ', params=' + str(self.params) + ', kernel_name=' + self.kernel_name
+        return 'path=' + self.path + ', params=' + str(self.params) + ', kernel_name=' + self.kernel_name + ', save=' + str(self.save)
 
     def run(self) -> None:
         logging.info(f'Open file: {self.path}')
@@ -33,11 +34,16 @@ class Notebook:
                 out = ep.preprocess(nb, {})
                 #logging.info('NOTEBOOK\n\n %s', out)
                 logging.info(f'Notebook: {name} executed successfully')
-                logging.info(f'Saving notebook: {path}')
+
             except CellExecutionError:
                 out = None
                 logging.error(f'Error executing the notebook \'{name}\'.\n\n See notebook \'{path}\' for the traceback.')
                 raise
             finally:
-                with open(path, mode=Constants.MODE, encoding=Constants.UTF_8) as fnb:
-                    nbformat.write(nb, fnb, version=Constants.AS_VERSION)
+                if self.save:
+                    logging.info(f'Saving notebook: {path}')
+                    with open(path, mode=Constants.MODE, encoding=Constants.UTF_8) as fnb:
+                        nbformat.write(nb, fnb, version=Constants.AS_VERSION)
+                        logging.info(f'Notebook: {name} saved successfully')
+                else:
+                    logging.info(f'Notebook: {name} not saved')

@@ -22,7 +22,8 @@ class TestMagic(Magics):
             f.write(cell.format(**globals()))
             f.close()
         #pytest.main([test_file])
-        result = 'OK' if pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file]) == 0 else 'FAIL'
+        #result = 'OK' if pytest.main(['--no-header','-vv', '-s', '-rA', '--color=yes', '--code-highlight=yes', test_file]) == 0 else 'FAIL'
+        result = 'OK' if pytest.main(['--no-header','-q', '--color=yes', '--code-highlight=yes', test_file]) == 0 else 'FAIL'
 
         os.remove(test_file)
         # result test in file csv
