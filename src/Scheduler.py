@@ -1,9 +1,9 @@
 import logging
 import os.path
 import os
-
 from src.Notebook import Notebook
 from src import Constants
+
 class Scheduler:
     """
     Constructor
@@ -36,7 +36,6 @@ class Scheduler:
                 else:
                     output_path = project_output_path + os.path.sep + key + os.path.sep + str(i) + os.path.sep
                     i += 1
-
                 if not os.path.exists(output_path):
                      logging.info(f'Path  {output_path} not exists, creating ...')
                      os.makedirs(output_path)
@@ -44,19 +43,25 @@ class Scheduler:
                 logging.info(f'Inicializando notebook {path} ...')
                 param[Constants.OUTPUT_PATH] = output_path
                 param[Constants.CARPETA] = param[Constants.OUTPUT_PATH].split(os.path.sep)[-2]
-                param[Constants.WORKSPACE] = param[Constants.OUTPUT_PATH].replace("/var/sds/homes", "/intelligence/inrisk/analytic/users")
+                if "/var/sds/homes" in param[Constants.OUTPUT_PATH]:
+                    param[Constants.WORKSPACE] = param[Constants.OUTPUT_PATH].replace("/var/sds/homes",
+                                                                                      "/intelligence/inrisk/analytic/users")
 
-                nb = Notebook(path=path, params=param, kernel_name=notebooks.get(key).get(Constants.KERNEL), save=notebooks.get(key).get(Constants.SAVE))
+                nb = Notebook(path=path, params=param, kernel_name=notebooks.get(key).get(Constants.KERNEL),
+                              save=notebooks.get(key).get(Constants.SAVE))
                 self.notebooks.append(nb)
+
     def get_notebooks(self) -> list[Notebook]:
         return self.notebooks
+
     def run(self) -> None:
         logging.info('Running notebooks...')
         self.__run_notebooks()
         logging.info('Done')
+
     def __run_notebooks(self) -> None:
         for i in range(len(self.notebooks)):
-            #Utils.set_env(self.notebooks[i].params)
+            # Utils.set_env(self.notebooks[i].params)
             logging.info('Running notebook number: %s of %s', str(i + 1), str(len(self.notebooks)))
             logging.info('Running notebook: %s', self.notebooks[i].path)
             logging.info('Params: %s', str(self.notebooks[i].params))

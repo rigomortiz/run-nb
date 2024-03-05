@@ -19,7 +19,6 @@ class ConfigFile:
             if not os.path.exists(file):
                 logging.error(f'Path {file} not exists')
                 sys.exit(1)
-
             conf = configparser.ConfigParser()
             conf.read(file)
             config_dict = dict()
@@ -39,7 +38,6 @@ class ConfigFile:
                     params_dict = {Constants.PARAMS: params_array}
                 else:
                     params_dict = {Constants.PARAMS: [{'PARAM': ''}]}
-
                 if not conf.has_option(section, Constants.NOTEBOOKS):
                     logging.error(f'Not found notebooks in section {section}')
                     continue
@@ -48,7 +46,9 @@ class ConfigFile:
                     config_dict[section] = params_dict | {Constants.NOTEBOOKS: notebooks}
 
                 if conf.has_option(section, Constants.KERNEL):
-                    config_dict[section] = config_dict[section] | {Constants.KERNEL: conf.get(section, Constants.KERNEL)}
+                    config_dict[section] = config_dict[section] | {
+                        Constants.KERNEL: conf.get(section, Constants.KERNEL)
+                    }
                 else:
                     config_dict[section] = config_dict[section] | {Constants.KERNEL: Constants.PYTHON3}
 
@@ -57,10 +57,8 @@ class ConfigFile:
                     config_dict[section] = config_dict[section] | {Constants.SAVE: False}
                 else:
                     config_dict[section] = config_dict[section] | {Constants.SAVE: True}
-
             logging.info('Config file read successfully')
             logging.info(config_dict)
-
             return config_dict
         except configparser.Error as e:
             logging.error(f'Not open config file: {e}')

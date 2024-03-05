@@ -6,6 +6,7 @@ from nbconvert.preprocessors import ExecutePreprocessor
 from src.Utils import Utils
 from src import Constants
 
+
 class Notebook:
     def __init__(self, path: str, params: dict, kernel_name: str = Constants.PYTHON3, save: bool = True):
         self.path = path
@@ -14,7 +15,7 @@ class Notebook:
         self.save = save
 
     def __str__(self):
-        return 'path=' + self.path + ', params=' + str(self.params) + ', kernel_name=' + self.kernel_name + ', save=' + str(self.save)
+        return 'path=' + self.path + ', params=' + str(self.params) + ', kernel_name=' + self.kernel_name
 
     def run(self) -> None:
         logging.info(f'Open file: {self.path}')
@@ -28,16 +29,18 @@ class Notebook:
                 # Add cell to init
                 nb.cells.insert(0, Utils.start_cell(self.params))
             # Add cell to save env variables
-            #nb.cells.insert(len(nb.cells) + 1, Utils.end_cell())
-            ep = ExecutePreprocessor(timeout=Constants.TIMEOUT, kernel_name=self.kernel_name, startup_timeout=Constants.STARTUP_TIMEOUT)
+            # nb.cells.insert(len(nb.cells) + 1, Utils.end_cell())
+            ep = ExecutePreprocessor(timeout=Constants.TIMEOUT, kernel_name=self.kernel_name,
+                                     startup_timeout=Constants.STARTUP_TIMEOUT)
             try:
                 out = ep.preprocess(nb, {})
-                #logging.info('NOTEBOOK\n\n %s', out)
+                # logging.info('NOTEBOOK\n\n %s', out)
                 logging.info(f'Notebook: {name} executed successfully')
 
             except CellExecutionError:
                 out = None
-                logging.error(f'Error executing the notebook \'{name}\'.\n\n See notebook \'{path}\' for the traceback.')
+                logging.error(
+                    f'Error executing the notebook \'{name}\'.\n\n See notebook \'{path}\' for the traceback.')
                 raise
             finally:
                 if self.save:

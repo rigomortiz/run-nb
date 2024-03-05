@@ -26,11 +26,10 @@ if __name__ == '__main__':
         if not os.path.exists(sys.argv[i]):
             logging.error(f'Path {sys.argv[i]} not exists')
             continue
-
+        cwd = os.getcwd()
         project_name = sys.argv[i].split(Constants.SLASH)[-1].split(Constants.POINT)[0]
-        path = '/'.join(sys.argv[i].split(Constants.SLASH)[0:-1])
         logging.info(f'Project name: {project_name}')
-        logging.info(f'Path: {path}')
+        logging.info(f'cwd: {cwd}')
         config = ConfigFile.read(sys.argv[i])
-        scheduler = Scheduler(config, path, project_name)
+        scheduler = Scheduler(config, cwd, project_name)
         scheduler.run()
